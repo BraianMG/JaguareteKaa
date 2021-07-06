@@ -1,0 +1,82 @@
+{% extends 'layouts/layout.html' %}
+
+{% comment %} Con el uso de {{nombre_de_variable}} hago uso de las variables que se me envio desde la Vista {% endcomment %}
+
+{% block title %}
+    {{titulo_pagina}}
+{% endblock title %}
+
+{% block contenido %}
+    {% comment %} La siguiente línea es para cargar los datos que tenga el blocke padre {% endcomment %}
+    {{ block.super }} 
+
+    {% comment %} Para cargar archivos estaticos como los .css e imágenes {% endcomment %}
+    {% load static %}
+    
+    <div clas="container">
+        {% if messages %}
+            {% for mensaje in messages %}
+                <div class="alert alert-success text-center" role="alert">
+                    {{mensaje}}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <section class="container-fluid" id="productos">
+        <div class="row w-75 mx-auto">
+            {% for producto in productos %}
+                <div class="col-sm mt-3">
+                    <div class="card border-primary " style="width: 18rem;">
+                        {% if producto.imagen != 'null' and producto.imagen.url|length >= 1 %}
+                            <img src="{{producto.imagen.url}}" class="card-img-top" alt="...">
+                        {% else %}
+                            <img src="../static/img/producto-sin-imagen.png" class="card-img-top" alt="...">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">{{producto.titulo}}</h5>
+                            <p class="card-text">{{producto.descripcion|safe}}</p>
+                            <div class="d-flex justify-content-center">
+                                {% if user.is_staff %}
+                                    <a href="{% url 'editar_producto' producto.id %}" class="btn btn-primary">Editar / Eliminar</a>
+                                {% else %}
+                                    <a href="{% url 'detalle_producto' producto.id %}" class="btn btn-primary">Ver Producto</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <strong class="text-center">No hay Artículos Destacados<strong>
+            {% endfor %}
+        </div>
+    </section>  
+
+    <section class="container-fluid my-3">
+        <div class="row w-75 mx-auto">
+            <div class="col-sm">
+                <div class="list-group">
+                    <p class="text-center fs-3 fw-bold">Más Productos</p>
+                    {% if demas_productos %}
+                        {% for producto in demas_productos %}
+                            {% if user.is_staff %}
+                                <a href="{% url 'editar_producto' producto.id %}" class="list-group-item list-group-item-action d-flex align-items-center">
+                                    <span><img src="{{producto.imagen.url}}" alt="" style="max-width: 100px;"></span>
+                                    <span class="fw-bold mr-3">{{producto.titulo}}:</span> <span class="">{{producto.descripcion|safe}}</span>
+                                </a> 
+                            {% else %}
+                                <a href="{% url 'detalle_producto' producto.id %}" class="list-group-item list-group-item-action d-flex align-items-center">
+                                    <span><img src="{{producto.imagen.url}}" alt="" style="max-width: 100px;"></span>
+                                    <span class="fw-bold mr-3">{{producto.titulo}}:</span> <span class="">{{producto.descripcion|safe}}</span>
+                                </a> 
+                            {% endif %}
+                               
+                        {% endfor %}
+                    {% else %}
+                        <strong>No se encontraron más Productos</strong>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock contenido %}

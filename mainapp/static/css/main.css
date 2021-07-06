@@ -1,0 +1,58 @@
+body{
+    font-family: 'Montserrat', sans-serif;
+    overflow-x: hidden;
+}
+
+/* ================== CABECERA ================== */
+header a > #logo{
+    max-height: 5rem !important;
+}
+
+/* ================== MENU ================== */
+#menu li > a{
+    font-size: 15px;
+    font-weight: bold;
+    /* color: #a5a5a5; */
+}
+
+#menu form > button{
+    font-size: 15px;
+    font-weight: bold;
+}
+
+/* ================== PRODUCTOS ================== */
+footer{
+    min-height: 50px;
+}
+
+footer p{
+    color: #f3f3f3;
+    text-align: center;
+}
+
+#iconos i{
+    font-size: 20px;
+    padding: 0 8px;
+}
+
+/* #productos img{ */
+    /* max-height: 10rem; */
+    /* image-rendering: optimizeSpeed; */
+/* } */
+
+
+
+
+
+
+/* ================== MEDIA QUERIS PANTALLA ANCHA ================== */
+@media (max-width:768px) {
+    #intro {
+        width: 90% !important;
+    }
+}
+
+/* ================== MEDIA QUERIS PANTALLA SM ================== */
+
+
+/* ================== MEDIA QUERIS PANTALLA EXTRA-SM ================== */

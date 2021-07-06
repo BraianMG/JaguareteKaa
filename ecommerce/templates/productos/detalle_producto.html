@@ -1,0 +1,32 @@
+{% extends 'layouts/layout.html' %}
+
+{% block title %}
+    {{titulo_pagina}}
+{% endblock title %}
+
+{% block contenido %}
+    <div clas="container" style="min-height:847px">
+        <div class="container d-flex w-90">
+            <div class="container row d-flex justify-content-center align-items-center m-3">
+                <h4 class="fw-bold text-center mt-3">{{producto.0.titulo}}</h4>
+                <div class="col-4">
+                    {% if producto.0.imagen != 'null' and producto.0.imagen.url|length >= 1 %}
+                        <img src="{{producto.0.imagen.url}}" alt="Imagen" class="img-fluid">
+                    {% else %}
+                        <img src="../static/img/producto-sin-imagen.png" class="card-img-top" alt="...">
+                    {% endif %}
+                </div>
+                <div class="col-8">
+                    <div class="container">
+                        <h6 class="fw-bold">{{producto.0.categoria}}</h6>
+                        <p>{{producto.0.descripcion|safe}}</p>
+                    </div>
+                    <div class="container d-flex justify-content-between align-middle">
+                        <h5 class="fw-bold align-middle" id="precio">Precio: ${{producto.0.precio}}</h5>
+                        <div class="btn btn-primary">Agregar al Carrito</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock contenido %}

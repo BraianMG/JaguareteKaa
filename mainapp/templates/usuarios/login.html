@@ -1,0 +1,48 @@
+{% extends 'layouts/layout.html' %}
+
+{% block title %}
+    {{titulo_pagina}}
+{% endblock title %}
+
+{% block contenido %}
+    <div clas="container" style="min-height:847px">
+        <div clas="container">
+            {% if messages %}
+                {% for mensaje in messages %}
+                    <div class="alert alert-danger text-center" role="alert">
+                        {{mensaje}}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="w-75 mx-auto text-center pt-5">
+            <h1 class="text-light-center fs-1 fw-bold">{{titulo_pagina}}</h1>
+        </div>
+
+        <div class="container">
+            <form method="POST" action="" class="row g-2">
+                {% csrf_token %}
+
+                <div class="container my-5">
+                    <div class="mb-3 row">
+                        <label for="usuario" class="col-sm-2 col-form-label">Usuario</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" placeholder="" id="usuario" name="usuario">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="contrasenia" class="col-sm-2 col-form-label">Contraseña</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" id="contrasenia" name="contrasenia">
+                        </div>
+                    </div>
+                    <div class="mb-3 d-flex justify-content-center">
+                        <input type="submit" class="btn btn-primary m-2 fs-6" value="Login"/>
+                        <input type="button" onclick="location.href='{% url 'pagina_registro' %}';" class="btn btn-secondary m-2 fs-6" value="Registrarse"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock contenido %}
