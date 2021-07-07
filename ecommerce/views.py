@@ -105,7 +105,7 @@ def editar_producto(request, id_producto):
             form_producto = FormProducto(data=request.POST, files=request.FILES, instance=el_producto)
             if form_producto.is_valid():
                 form_producto.save()
-                messages.success(request, 'Producto creado correctamente!')
+                messages.success(request, 'Producto editado correctamente!')
                 return redirect('inicio')
             else:
                 messages.success(request, 'Error al crear el producto!')
@@ -151,10 +151,38 @@ def carrito(request):
     if request.user.is_staff:
         return redirect('inicio')
 
-    productos = Productos.objects.filter(id__in=request.session["carrito"]).values_list('descripcion', 'precio')
+    productos = Productos.objects.filter(id__in=request.session["carrito"]).values_list('id', 'descripcion', 'precio')
     total = 0
     for producto in productos:
-        total += producto[1]
+        total += producto[2]
+    return render(request, 'productos/carrito.html',{
+                'titulo_pagina': 'Carrito',
+                'carrito': productos,
+                'total': total,
+            })
+
+def eliminar_prod_carrito(request, id_producto):
+    if not request.user.is_authenticated:
+        return redirect('inicio')
+
+    if request.user.is_staff:
+        return redirect('inicio')
+
+    if id_producto == 0:
+        productos = []
+        request.session["carrito"] = []
+    else:
+        # Significa que elimina solo un producto del carrito
+        ids = request.session["carrito"]
+        request.session["carrito"] = []
+        for id in ids:
+            if id != id_producto:
+                request.session["carrito"] += [id]
+    
+    productos = Productos.objects.filter(id__in=request.session["carrito"]).values_list('id', 'descripcion', 'precio')
+    total = 0
+    for producto in productos:
+        total += producto[2]
     return render(request, 'productos/carrito.html',{
                 'titulo_pagina': 'Carrito',
                 'carrito': productos,

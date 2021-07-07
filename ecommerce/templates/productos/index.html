@@ -33,7 +33,7 @@
     <section class="container-fluid" id="productos">
         <div class="row w-75 mx-auto">
             {% for producto in productos %}
-                <div class="col-sm mt-3">
+                <div class="col-sm mt-3 d-flex justify-content-center align-items-center">
                     <div class="card border-primary " style="width: 18rem;">
                         {% if producto.imagen != 'null' and producto.imagen.url|length >= 1 %}
                             <img src="{{producto.imagen.url}}" class="card-img-top" alt="...">

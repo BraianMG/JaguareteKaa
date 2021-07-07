@@ -8,7 +8,7 @@
     {% for mensaje in messages %}
         {{mensaje}}
     {% endfor %}
-    <section class="container-fluid my-3" style="min-height:811px">
+    <section class="container-fluid my-3" style="min-height:815px">
         <div class="w-75 mx-auto text-center py-5">
             <h1 class="text-light-center fs-1 fw-bold">Carrito</h1>
         </div>
@@ -20,9 +20,10 @@
             {% if carrito %}
                 <ol class="list-group list-group-numbered">
                     {% for producto in carrito %}
-                        <li class="list-group-item d-flex align-items-center">{{producto.0}}. <span class="fw-bold">${{producto.1}}</span>
+                        <li class="list-group-item d-flex align-items-center">{{producto.1}}. <span class="fw-bold">${{producto.2}}</span>
                         <div class="d-grid gap-2">
-                            <button class="btn btn-danger mx-3" type="button">X</button>
+                            <a class="btn btn-danger mx-3" aria-current="page" href="{% url 'eliminar_prod_carrito' producto.0 %}">X</a>
+                            
                         </div>
                     </li>
                     {% endfor %}
@@ -39,7 +40,7 @@
         </div>
         <div class="d-flex justify-content-end w-75 mx-auto">
             <button type="button" class="btn btn-danger m-3 p-0 fs-6">
-                <a class="nav-link active text-light" aria-current="page" href="#">Vaciar Carrito</a>
+                <a class="nav-link active text-light" aria-current="page" href="{% url 'eliminar_prod_carrito' 0 %}">Vaciar Carrito</a>
             </button>
             <button type="button" class="btn btn-success m-3 p-0 fs-6">
                 <a class="nav-link active text-light" aria-current="page" href="#">Finalizar Compra</a>

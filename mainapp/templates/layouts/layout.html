@@ -39,21 +39,45 @@
                         <span class="text-light m-2 fs-6 fw-bold">JAGUARETE KAA S.A.</span>
                     </a>
                 </div>
-                <div class="btn-group" role="group" aria-label="Basic example">
+                <div class="d-flex justify-content-end" role="" aria-label="Basic example">
                     {% if user.email %}
+
+                        {% comment %} <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">BraianMG</button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Carrito</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Cerrar Sesión</a></li>
+                        </ul> {% endcomment %}
                         {% if not user.is_staff %}
-                                <button type="button" class="btn btn-primary m-0 p-0 fs-6">
-                                    <a class="nav-link active text-light" aria-current="page" href="{% url 'carrito' %}">Carrito</a>
-                                </button>
-                            {% endif %}
+                            <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">{{user}}</button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item nav-link text-dark" aria-current="page" href="{% url 'carrito' %}">Carrito</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item nav-link text-dark" aria-current="page" href="{% url 'cerrar_sesion' %}">Cerrar Sesión</a></li>
+                            </ul>
+                        {% else %}
+                            <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">{{user}} (moderador)</button>
+                            <ul class="dropdown-menu">
+                                <a class="dropdown-item nav-link text-dark" aria-current="page" href="{% url 'cerrar_sesion' %}">Cerrar Sesión</a>
+                            </ul>
+                        {% endif %}
+
+                        {% comment %} ORIGINAL {% endcomment %}
+                        {% comment %} {% if not user.is_staff %}
+                            <button type="button" class="btn btn-primary m-0 p-0 fs-6">
+                                <a class="nav-link active text-light" aria-current="page" href="{% url 'carrito' %}">Carrito</a>
+                            </button>
+                        {% endif %}
                         <button type="button" class="btn btn-primary m-0 p-0 fs-6">
                             <a class="nav-link active text-light" aria-current="page" href="{% url 'cerrar_sesion' %}">Cerrar Sesión</a>
-                        </button>
+                        </button> {% endcomment %}
+
+
                     {% else %}
-                        <button type="button" class="btn btn-primary m-0 p-0 fs-6">
+                        <button type="button" class="btn btn-outline-info mx-2 p-0 fs-6">
                             <a class="nav-link active text-light" aria-current="page" href="{% url 'pagina_login' %}">Login</a>
                         </button>
-                        <button type="button" class="btn btn-primary m-0 p-0 fs-6">
+                        <button type="button" class="btn btn-info m-0 p-0 fs-6">
                             <a class="nav-link active text-light" aria-current="page" href="{% url 'pagina_registro' %}">Registro</a>
                         </button>
                     {% endif %}
