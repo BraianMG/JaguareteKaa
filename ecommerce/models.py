@@ -37,17 +37,17 @@ class Productos(models.Model):
     def __str__(self):
         return f"{self.titulo}"
 
-# class Carrito(models.Model):
-#     usuario = models.ForeignKey(User, unique=True, verbose_name="Usuario", on_delete=models.CASCADE)
-#     lista_productos = models.ManyToManyField(Productos)
-#     precio_total = models.FloatField()
-#     creado_el = models.DateTimeField(auto_now_add=True, verbose_name="Creado")
-#     actualizado_el = models.DateTimeField(auto_now=True, verbose_name="Editado")
+class Carritos(models.Model):
+    usuario = models.ForeignKey(User, verbose_name="Usuario", on_delete=models.CASCADE)
+    lista_productos = models.ManyToManyField(Productos, verbose_name="Carrito")
+    precio_total = models.FloatField()
+    creado_el = models.DateTimeField(auto_now_add=True, verbose_name="Creado")
+    actualizado_el = models.DateTimeField(auto_now=True, verbose_name="Editado")
 
-#     class Meta:
-#         verbose_name = "Carrito"
-#         verbose_name_plural = "Carritos"
-#         ordering = ['-created_at']
+    class Meta:
+        verbose_name = "Carrito"
+        verbose_name_plural = "Carritos"
+        ordering = ['-creado_el']
         
-#     def __str__(self):
-#         return f"Carrito de {self.usuario} del {self.actualizado_el}"
+    def __str__(self):
+        return f"Carrito de {self.usuario} del {self.actualizado_el}"

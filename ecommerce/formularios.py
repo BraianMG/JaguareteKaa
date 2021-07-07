@@ -1,5 +1,5 @@
 from django.forms import widgets
-from ecommerce.models import Productos
+from ecommerce.models import Productos, Carritos
 from django import forms
 from django.core import validators
 
@@ -33,3 +33,9 @@ class FormProducto(forms.ModelForm):
             'imagen': forms.FileInput(attrs={'type':'file', 'class':'form-control', 'id':'imagen'}),
             'categoria': forms.Select(attrs={'class':'form-select', 'aria-label':'Categoría'})
         }
+
+class FormCarrito(forms.ModelForm):
+    
+    class Meta:
+        model = Carritos
+        fields = ('usuario', 'lista_productos', 'precio_total')

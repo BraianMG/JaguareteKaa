@@ -9,9 +9,15 @@
         <div clas="container">
             {% if messages %}
                 {% for mensaje in messages %}
-                    <div class="alert alert-danger text-center" role="alert">
+                    {% if mensaje.tags == 'success' %}
+                        <div class="alert alert-success text-center" role="alert">
                         {{mensaje}}
                     </div>
+                    {% else %}
+                        <div class="alert alert-danger text-center" role="alert">
+                        {{mensaje}}
+                    </div>
+                    {% endif %}
                 {% endfor %}
             {% endif %}
         </div>

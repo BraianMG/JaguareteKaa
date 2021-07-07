@@ -43,7 +43,7 @@
                     {% if user.email %}
                         {% if not user.is_staff %}
                                 <button type="button" class="btn btn-primary m-0 p-0 fs-6">
-                                    <a class="nav-link active text-light" aria-current="page" href="#">Carrito</a>
+                                    <a class="nav-link active text-light" aria-current="page" href="{% url 'carrito' %}">Carrito</a>
                                 </button>
                             {% endif %}
                         <button type="button" class="btn btn-primary m-0 p-0 fs-6">

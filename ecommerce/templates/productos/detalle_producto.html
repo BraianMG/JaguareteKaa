@@ -5,6 +5,22 @@
 {% endblock title %}
 
 {% block contenido %}
+    <div clas="container">
+        {% if messages %}
+            {% for mensaje in messages %}
+                {% if mensaje.tags == 'success' %}
+                    <div class="alert alert-success text-center" role="alert">
+                        {{mensaje}}
+                    </div>
+                {% else %}
+                    <div class="alert alert-danger text-center" role="alert">
+                        {{mensaje}}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+
     <div clas="container" style="min-height:847px">
         <div class="container d-flex w-90">
             <div class="container row d-flex justify-content-center align-items-center m-3">
@@ -23,7 +39,8 @@
                     </div>
                     <div class="container d-flex justify-content-between align-middle">
                         <h5 class="fw-bold align-middle" id="precio">Precio: ${{producto.0.precio}}</h5>
-                        <div class="btn btn-primary">Agregar al Carrito</div>
+                        {% comment %} <div class="btn btn-primary">Agregar al Carrito</div> {% endcomment %}
+                        <a href="{% url 'agregar_al_carrito' producto.0.id %}" class="btn btn-primary">Agregar al Carrito</a>
                     </div>
                 </div>
             </div>

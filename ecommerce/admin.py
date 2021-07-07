@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Categorias, Productos
+from .models import Categorias, Productos, Carritos
 
 class CategoriasAdmin(admin.ModelAdmin):
     readonly_fields = ('creado_el', 'actualizado_el')
@@ -19,6 +19,13 @@ class ProductosAdmin(admin.ModelAdmin):
             obj.usuario_id = request.user.id
         obj.save()
 
+class CarritosAdmin(admin.ModelAdmin):
+    readonly_fields = ('usuario', 'creado_el', 'actualizado_el')
+    search_fields = ('usuario',)
+    list_display = ('usuario', 'precio_total', 'creado_el')
+    ordering = ('-creado_el',)
+
 # Register your models here.
 admin.site.register(Categorias, CategoriasAdmin)
 admin.site.register(Productos, ProductosAdmin)
+admin.site.register(Carritos, CarritosAdmin)

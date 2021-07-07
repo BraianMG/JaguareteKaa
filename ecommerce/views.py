@@ -1,12 +1,17 @@
 from django.shortcuts import render, get_list_or_404, redirect, get_object_or_404
+from django.http.response import HttpResponseRedirect
+from django.urls import reverse
 from ecommerce.models import Categorias, Productos
 from django.db.models import Q
-from .formularios import FormProducto
+from .formularios import FormProducto, FormCarrito
 from django.contrib import messages
 from django.contrib.auth.models import User
 
 # Create your views here.
 def index(request):
+    if "carrito" not in request.session:
+        request.session["carrito"] = []
+
     ultimos_productos = Productos.objects.filter(publicado=True).order_by('-id')[:3]
     demas_productos = Productos.objects.filter(publicado=True).order_by('-id')[3:10]
 
@@ -21,7 +26,9 @@ def index(request):
         'titulo_pagina': 'Inicio',
         'productos': ultimos_productos,
         'demas_productos': demas_productos,
+        "carrito": request.session["carrito"],
     })
+
 
 def busqueda(request, id_categoria=-1, palabra=''):
 
@@ -48,6 +55,7 @@ def busqueda(request, id_categoria=-1, palabra=''):
         'productos': productos,
     })
 
+
 def detalle_producto(request, id_producto):
     producto = get_list_or_404(Productos, id=id_producto, publicado=True)
 
@@ -55,6 +63,7 @@ def detalle_producto(request, id_producto):
         'titulo_pagina': 'Detalle de Producto',
         'producto': producto,
     })
+
 
 def nuevo_producto(request):
     if not request.user.is_authenticated:
@@ -83,6 +92,7 @@ def nuevo_producto(request):
             'form_producto': form_producto,
         })
 
+
 def editar_producto(request, id_producto):
     if not request.user.is_authenticated:
         return redirect('inicio')
@@ -103,10 +113,11 @@ def editar_producto(request, id_producto):
         else:
             form_producto = FormProducto(instance = el_producto)
             return render(request, 'productos/editar_producto.html',{
-                'titulo_pagina': 'Creando Producto',
+                'titulo_pagina': 'Editando Producto',
                 'el_producto': el_producto,
                 'form_producto': form_producto,
             })
+
 
 def eliminar_producto(request, id_producto):
     if not request.user.is_authenticated:
@@ -116,3 +127,36 @@ def eliminar_producto(request, id_producto):
         el_producto.delete()
         messages.success(request, 'Producto eliminado correctamente!')
         return redirect("inicio")
+
+
+def agregar_al_carrito(request, id_producto):
+    el_producto = get_object_or_404(Productos, id=id_producto)
+    for id in request.session["carrito"]:
+        if id == id_producto:
+            #existe el articulo
+            messages.warning(request, 'El producto ya se encuentra en su carrito')
+            return HttpResponseRedirect(reverse("detalle_producto", args=(el_producto.id,)))            
+    request.session["carrito"] += [id_producto]
+    # request.session["carrito"] += ({'id_producto': id_producto,
+    #                                    'descripcion': el_producto.descripcion,
+    #                                    'precio':el_producto.precio})
+    messages.success(request, 'Producto agregado correctamente!')
+    return HttpResponseRedirect(reverse("detalle_producto", args=(el_producto.id,)))
+
+
+def carrito(request):
+    if not request.user.is_authenticated:
+        return redirect('inicio')
+
+    if request.user.is_staff:
+        return redirect('inicio')
+
+    productos = Productos.objects.filter(id__in=request.session["carrito"]).values_list('descripcion', 'precio')
+    total = 0
+    for producto in productos:
+        total += producto[1]
+    return render(request, 'productos/carrito.html',{
+                'titulo_pagina': 'Carrito',
+                'carrito': productos,
+                'total': total,
+            })

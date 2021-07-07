@@ -1,0 +1,49 @@
+{% extends 'layouts/layout.html' %}
+
+{% block title %}
+    {{titulo_pagina}}
+{% endblock title %}
+
+{% block contenido %}
+    {% for mensaje in messages %}
+        {{mensaje}}
+    {% endfor %}
+    <section class="container-fluid my-3" style="min-height:811px">
+        <div class="w-75 mx-auto text-center py-5">
+            <h1 class="text-light-center fs-1 fw-bold">Carrito</h1>
+        </div>
+        <section class="w-50 mx-auto text-center pt-3">
+            <h2 class="p-3 fs-2 border-top border-3"><span class="text-primary">{{user}}</span></h2>
+        </section>
+
+        <div class="row w-75 mx-auto">
+            {% if carrito %}
+                <ol class="list-group list-group-numbered">
+                    {% for producto in carrito %}
+                        <li class="list-group-item d-flex align-items-center">{{producto.0}}. <span class="fw-bold">${{producto.1}}</span>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-danger mx-3" type="button">X</button>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ol>
+            {% else %}
+                <strong class="text-center">Carrito vacío<strong>
+            {% endif %}
+            
+        </div>
+        <div class="d-flex justify-content-end w-75 mx-auto">
+            <div class="container-fluid row w-75 mt-3">
+                <p class="h4 fw-bold text-end">Total: ${{total}}</p>
+            </div>
+        </div>
+        <div class="d-flex justify-content-end w-75 mx-auto">
+            <button type="button" class="btn btn-danger m-3 p-0 fs-6">
+                <a class="nav-link active text-light" aria-current="page" href="#">Vaciar Carrito</a>
+            </button>
+            <button type="button" class="btn btn-success m-3 p-0 fs-6">
+                <a class="nav-link active text-light" aria-current="page" href="#">Finalizar Compra</a>
+            </button>
+        </div>
+    </section>
+{% endblock contenido %}
