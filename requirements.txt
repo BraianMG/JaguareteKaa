@@ -10,21 +10,22 @@
 # sqlparse==0.4.2
 
 
-# appdirs==1.4.4
 asgiref==3.4.1
-# decorator==4.4.2
-# distlib==0.3.1
 django==3.0.5
 django-ckeditor==6.0.0
 django-js-asset==1.2.2
+pillow==8.0.1
+pytz==2020.4
+sqlparse==0.4.1
+
+# appdirs==1.4.4
+# decorator==4.4.2
+# distlib==0.3.1
 # jedi==0.17.2
 # Jinja2==2.11.2
 # numpy==1.19.4
-pillow==8.0.1
 # pylint-django==2.4.2
 # pylint-plugin-utils==0.6
-pytz==2020.4
 # pywin32==300
 # requests==2.25.0
-sqlparse==0.4.1
 # urllib3==1.26.2
